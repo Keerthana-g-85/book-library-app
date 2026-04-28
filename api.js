@@ -1,0 +1,17 @@
+import BASE_URL from "./config.js";
+
+async function apiRequest(endpoint = "", options = {}) {
+    try {
+        const response = await fetch(`${BASE_URL}${endpoint}`, options);
+
+        if (!response.ok) {
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("API Error:", error);
+        throw error;
+    }
+}
+
