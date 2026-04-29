@@ -1,5 +1,6 @@
 import { getBooksAPI } from "./api.js";
 import {searchBar} from "./search.js"
+import { createAddBookForm } from "./add.js";
 
 const container = document.querySelector(".container");
 let booksData = [];
@@ -12,6 +13,22 @@ export async function getBooks() {
 
         const searchInput = searchBar(booksData);
         container.appendChild(searchInput);
+
+        const addBtn = document.createElement("button");
+        addBtn.className = "btn btn-success mb-3 w-100";
+        addBtn.textContent = "+ Add New Book";
+        container.appendChild(addBtn);
+
+        const formContainer = document.createElement("div");
+        formContainer.id = "form-area";
+        container.appendChild(formContainer);
+
+        addBtn.onclick = () => {
+            if (formContainer.innerHTML === "") {
+                const form = createAddBookForm(booksData);
+                formContainer.appendChild(form);
+            }
+        };
 
         const bookListContainer = document.createElement("div");
         bookListContainer.id = "book-list-container"; 

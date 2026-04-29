@@ -18,3 +18,13 @@ async function apiRequest(endpoint = "", options = {}) {
 export function getBooksAPI() {
     return apiRequest("");
 }
+
+export function addBookAPI(bookData) {
+    return apiRequest("", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookData),
+    });
+}
