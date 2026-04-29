@@ -1,6 +1,7 @@
 import { getBooksAPI } from "./api.js";
 import {searchBar} from "./search.js"
 import { createAddBookForm } from "./add.js";
+import { createUpdateForm } from "./update.js";
 
 const container = document.querySelector(".container");
 let booksData = [];
@@ -68,12 +69,18 @@ export function renderBooks(books) {
                         </p>
                         <div class="d-flex gap-2">
                             <button class="btn btn-outline-danger btn-sm flex-fill">Delete</button>
-                            <button class="btn btn-primary btn-sm flex-fill">Update</button>
+                            <button class="btn btn-primary btn-sm flex-fill update-btn ">Update</button>
                         </div>
                     </div>
                 </div>
             </div>
         `;
+        const updateBtn = col.querySelector(".update-btn");
+        
+        updateBtn.onclick = () => {
+            const modal = createUpdateForm(book, booksData);
+            document.body.appendChild(modal); 
+        };
         row.appendChild(col);
     });
 
