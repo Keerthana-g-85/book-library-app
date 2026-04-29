@@ -28,10 +28,17 @@ export function addBookAPI(bookData) {
         body: JSON.stringify(bookData),
     });
 }
+
 export function updateBookAPI(id, bookData) {
     return apiRequest(`/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookData)
+    });
+}
+
+export function deleteBookAPI(id) {
+    return apiRequest(`/${id}`, {
+        method: "DELETE",
     });
 }

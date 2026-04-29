@@ -2,6 +2,7 @@ import { getBooksAPI } from "./api.js";
 import {searchBar} from "./search.js"
 import { createAddBookForm } from "./add.js";
 import { createUpdateForm } from "./update.js";
+import { confirmDelete } from "./delete.js";
 
 const container = document.querySelector(".container");
 let booksData = [];
@@ -68,7 +69,7 @@ export function renderBooks(books) {
                             <strong>Year:</strong> ${book.year || "N/A"}
                         </p>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-outline-danger btn-sm flex-fill">Delete</button>
+                            <button class="btn btn-outline-danger btn-sm flex-fill delete-btn">Delete</button>
                             <button class="btn btn-primary btn-sm flex-fill update-btn ">Update</button>
                         </div>
                     </div>
@@ -81,6 +82,12 @@ export function renderBooks(books) {
             const modal = createUpdateForm(book, booksData);
             document.body.appendChild(modal); 
         };
+
+        const deleteBtn = col.querySelector(".delete-btn");
+        deleteBtn.onclick = () => {
+            confirmDelete(book, booksData, renderBooks);
+        };
+        
         row.appendChild(col);
     });
 
