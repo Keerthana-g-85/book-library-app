@@ -1,4 +1,5 @@
 import { getBooksAPI } from "./api.js";
+import {searchBar} from "./search.js"
 
 const container = document.querySelector(".container");
 let booksData = [];
@@ -6,19 +7,28 @@ let booksData = [];
 export async function getBooks() {
     try {
         booksData = await getBooksAPI();
+
+        container.innerHTML = "";
+
+        const searchInput = searchBar(booksData);
+        container.appendChild(searchInput);
+
+        const bookListContainer = document.createElement("div");
+        bookListContainer.id = "book-list-container"; 
+        container.appendChild(bookListContainer);
+
         renderBooks(booksData);
     } catch (err) {
         console.error("API FAILED:", err);
     }
 }
 
-function renderBooks(books) {
-    container.innerHTML = ""; 
+export function renderBooks(books) {
 
-    const header = document.createElement("h2");
-    header.className = "text-center my-4 w-100";
-    header.textContent = "Library Book";
-    container.appendChild(header);
+    const bookListContainer = document.getElementById("book-list-container");
+    if (!bookListContainer) return; 
+    
+    bookListContainer.innerHTML = "";
 
     const row = document.createElement("div");
     row.className = "row g-4"; 
@@ -50,6 +60,6 @@ function renderBooks(books) {
         row.appendChild(col);
     });
 
-    container.appendChild(row);
+    bookListContainer.appendChild(row);
 }
 
