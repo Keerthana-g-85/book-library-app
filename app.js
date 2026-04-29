@@ -16,6 +16,9 @@ export async function getBooks() {
         const searchInput = searchBar(booksData);
         container.appendChild(searchInput);
 
+        const genreFilter = createGenreFilter(booksData);
+        container.appendChild(genreFilter);
+
         const addBtn = document.createElement("button");
         addBtn.className = "btn btn-success mb-3 w-100";
         addBtn.textContent = "+ Add New Book";
@@ -87,10 +90,39 @@ export function renderBooks(books) {
         deleteBtn.onclick = () => {
             confirmDelete(book, booksData, renderBooks);
         };
-        
+
         row.appendChild(col);
     });
 
     bookListContainer.appendChild(row);
 }
 
+
+function createGenreFilter(books) {
+    const genres = ["All Genres", ...new Set(books.map(b => b.genre).filter(g => g))];
+
+    const filterContainer = document.createElement("div");
+    filterContainer.className = "mb-3";
+
+    filterContainer.innerHTML = `
+        <label class="form-label small fw-bold">Filter by Genre:</label>
+        <select id="genreSelect" class="form-select">
+            ${genres.map(genre => `<option value="${genre}">${genre}</option>`).join("")}
+        </select>
+    `;
+
+    const select = filterContainer.querySelector("#genreSelect");
+    
+    select.onchange = (e) => {
+        const selectedGenre = e.target.value;
+        
+        if (selectedGenre === "All Genres") {
+            renderBooks(books); 
+        } else {
+            const filtered = books.filter(b => b.genre === selectedGenre);
+            renderBooks(filtered); 
+        }
+    };
+
+    return filterContainer;
+}
