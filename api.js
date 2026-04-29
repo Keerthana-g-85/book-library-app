@@ -15,3 +15,6 @@ async function apiRequest(endpoint = "", options = {}) {
     }
 }
 
+export function getBooksAPI() {
+    return apiRequest("");
+}

@@ -1,3 +1,5 @@
+import {getBooks} from "./app.js"
+
 const container = document.querySelector(".container");
 container.className = "d-flex justify-content-center align-items-center vh-100";
 
@@ -34,6 +36,10 @@ button.addEventListener("click", ()=>
     if (userName.value === "Keerthana" && password.value==="Book@123")
     {
         alert("Login Success")
+        container.innerHTML = ""; 
+        container.className = "container mt-5"; 
+        getBooks();
+        
     }
     else{
         alert("Wrong credintails")
