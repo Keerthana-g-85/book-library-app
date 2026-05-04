@@ -1,6 +1,6 @@
 import { renderBooks } from "./app.js";
 import { updateBookAPI } from "./api.js";
-import { notify } from "./notification.js"; // shared notification system
+import { notify } from "./notification.js"; 
 
 // Function to create update (edit) modal for a book
 export function createUpdateForm(book, booksData) {

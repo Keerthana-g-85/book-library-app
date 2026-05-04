@@ -1,5 +1,5 @@
 import { getBooks } from "./app.js";
-import { notify } from "./notification.js"; // import global notification system
+import { notify } from "./notification.js"; 
 
 // Get main container from DOM
 const container = document.querySelector(".container");

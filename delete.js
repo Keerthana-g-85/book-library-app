@@ -1,5 +1,5 @@
 import { deleteBookAPI } from "./api.js";
-import { notify } from "./notification.js"; // import shared notification system
+import { notify } from "./notification.js"; 
 
 // Function to show delete confirmation modal
 export function confirmDelete(book, booksData, onSuccess) {
