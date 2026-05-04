@@ -1,47 +1,68 @@
-import {getBooks} from "./app.js"
+import { getBooks } from "./app.js";
+import { notify } from "./notification.js"; // import global notification system
 
+// Get main container from DOM
 const container = document.querySelector(".container");
+
+// Center login screen using Bootstrap classes
 container.className = "d-flex justify-content-center align-items-center vh-100";
 
+// Create login card
 const card = document.createElement("div");
 card.className = "card p-4 shadow w-50";
-card.style.height="300px";
+card.style.height = "300px";
 
+// Heading
 const heading = document.createElement("h2");
-heading.className = "text-center mb-3"
-heading.textContent = "Login"
+heading.className = "text-center mb-3";
+heading.textContent = "Login";
 
-const userName = document.createElement("input")
-userName.type = "text"
-userName.placeholder = "Username"
+// Username input field
+const userName = document.createElement("input");
+userName.type = "text";
+userName.placeholder = "Username";
 userName.className = "form-control mb-3";
 
-const password = document.createElement("input")
-password.type = "password"
-password.placeholder = "password"
+// Password input field
+const password = document.createElement("input");
+password.type = "password";
+password.placeholder = "password";
 password.className = "form-control mb-3";
 
+// Login button
 const button = document.createElement("button");
 button.textContent = "Login";
-button.className = "btn btn-primary w-100"
+button.className = "btn btn-primary w-100";
 
+// Append elements to card
 card.appendChild(heading);
 card.appendChild(userName);
 card.appendChild(password);
 card.appendChild(button);
+
+// Add card to container
 container.appendChild(card);
 
-button.addEventListener("click", ()=>
-{
-    if (userName.value === "Keerthana" && password.value==="Book@123")
-    {
-        alert("Login Success")
-        container.innerHTML = ""; 
-        container.className = "container mt-5"; 
+// Handle login click
+button.addEventListener("click", () => {
+
+    // Simple login validation (empty check)
+    if (userName.value === "" && password.value === "") {
+
+        // Success message
+        notify("Login Success");
+
+        // Clear login UI
+        container.innerHTML = "";
+
+        // Reset container layout
+        container.className = "container mt-5";
+
+        // Load books UI
         getBooks();
-        
+
+    } else {
+        // Error message
+        notify("Wrong credentials");
     }
-    else{
-        alert("Wrong credintails")
-    }
-})
+});
