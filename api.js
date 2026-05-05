@@ -1,8 +1,8 @@
-import BASE_URL from "./config.js";
+import BASE_URL from './config.js';
 
 // Generic reusable function to make API requests
 // Handles GET, POST, PUT, DELETE in one place
-async function apiRequest(endpoint = "", options = {}) {
+async function apiRequest(endpoint = '', options = {}) {
     try {
         // Make API call using fetch
         const response = await fetch(`${BASE_URL}${endpoint}`, options);
@@ -17,7 +17,7 @@ async function apiRequest(endpoint = "", options = {}) {
 
     } catch (error) {
         // Log any API-related errors
-        console.error("API Error:", error);
+        console.error('API Error:', error);
 
         // Pass error back to calling function
         throw error;
@@ -26,15 +26,15 @@ async function apiRequest(endpoint = "", options = {}) {
 
 // GET: Fetch all books from API
 export function getBooksAPI() {
-    return apiRequest("");
+    return apiRequest('');
 }
 
 // POST: Add a new book to API
 export function addBookAPI(bookData) {
-    return apiRequest("", {
-        method: "POST",
+    return apiRequest('', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(bookData),
     });
@@ -43,9 +43,9 @@ export function addBookAPI(bookData) {
 // PUT: Update an existing book by ID
 export function updateBookAPI(id, bookData) {
     return apiRequest(`/${id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(bookData)
     });
@@ -54,6 +54,6 @@ export function updateBookAPI(id, bookData) {
 // DELETE: Remove a book by ID
 export function deleteBookAPI(id) {
     return apiRequest(`/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
     });
 }

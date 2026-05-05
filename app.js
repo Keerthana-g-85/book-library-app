@@ -1,12 +1,12 @@
 // Import required functions from other modules
-import { getBooksAPI } from "./api.js";
-import { searchBar } from "./search.js";
-import { createAddBookForm } from "./add.js";
-import { createUpdateForm } from "./update.js";
-import { confirmDelete } from "./delete.js";
+import { getBooksAPI } from './api.js';
+import { searchBar } from './search.js';
+import { createAddBookForm } from './add.js';
+import { createUpdateForm } from './update.js';
+import { confirmDelete } from './delete.js';
 
 // Main container where everything is rendered
-const container = document.querySelector(".container");
+const container = document.querySelector('.container');
 
 // Stores all books fetched from API
 let booksData = [];
@@ -18,7 +18,7 @@ export async function getBooks() {
         booksData = await getBooksAPI();
 
         // Clear existing content
-        container.innerHTML = "";
+        container.innerHTML = '';
 
         // Add search bar
         const searchInput = searchBar(booksData);
@@ -29,27 +29,27 @@ export async function getBooks() {
         container.appendChild(genreFilter);
 
         // Create "Add New Book" button
-        const addBtn = document.createElement("button");
-        addBtn.className = "btn btn-success mb-3 w-100";
-        addBtn.textContent = "+ Add New Book";
+        const addBtn = document.createElement('button');
+        addBtn.className = 'btn btn-success mb-3 w-100';
+        addBtn.textContent = '+ Add New Book';
         container.appendChild(addBtn);
 
         // Container where form will appear
-        const formContainer = document.createElement("div");
-        formContainer.id = "form-area";
+        const formContainer = document.createElement('div');
+        formContainer.id = 'form-area';
         container.appendChild(formContainer);
 
         // Show form only if not already open
         addBtn.onclick = () => {
-            if (formContainer.innerHTML === "") {
+            if (formContainer.innerHTML === '') {
                 const form = createAddBookForm(booksData);
                 formContainer.appendChild(form);
             }
         };
 
         // Container for book cards
-        const bookListContainer = document.createElement("div");
-        bookListContainer.id = "book-list-container";
+        const bookListContainer = document.createElement('div');
+        bookListContainer.id = 'book-list-container';
         container.appendChild(bookListContainer);
 
         // Render all books
@@ -57,42 +57,42 @@ export async function getBooks() {
 
     } catch (err) {
         // Log API error
-        console.error("API FAILED:", err);
+        console.error('API FAILED:', err);
     }
 }
 
 // Render books as cards
 export function renderBooks(books) {
 
-    const bookListContainer = document.getElementById("book-list-container");
+    const bookListContainer = document.getElementById('book-list-container');
 
     // Safety check (in case container is missing)
-    if (!bookListContainer) return;
+    if (!bookListContainer) {return;}
 
     // Clear previous list
-    bookListContainer.innerHTML = "";
+    bookListContainer.innerHTML = '';
 
     // Bootstrap row for grid layout
-    const row = document.createElement("div");
-    row.className = "row g-4";
+    const row = document.createElement('div');
+    row.className = 'row g-4';
 
     // Loop through each book
     books.forEach(book => {
-        const col = document.createElement("div");
-        col.className = "col-12 col-md-6 col-lg-4";
+        const col = document.createElement('div');
+        col.className = 'col-12 col-md-6 col-lg-4';
 
         // Book card UI
         col.innerHTML = `
             <div class="card h-100 shadow-sm border-0 bg-light">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-primary">${book.title || "Untitled"}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">by ${book.author || "Unknown"}</h6>
+                    <h5 class="card-title text-primary">${book.title || 'Untitled'}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">by ${book.author || 'Unknown'}</h6>
                     
                     <div class="mt-auto">
                         <hr>
                         <p class="card-text small">
-                            <strong>Genre:</strong> ${book.genre || "N/A"}<br>
-                            <strong>Year:</strong> ${book.year || "N/A"}
+                            <strong>Genre:</strong> ${book.genre || 'N/A'}<br>
+                            <strong>Year:</strong> ${book.year || 'N/A'}
                         </p>
                         <div class="d-flex gap-2">
                             <button class="btn btn-outline-danger btn-sm flex-fill delete-btn">Delete</button>
@@ -104,14 +104,14 @@ export function renderBooks(books) {
         `;
 
         // Handle update button click
-        const updateBtn = col.querySelector(".update-btn");
+        const updateBtn = col.querySelector('.update-btn');
         updateBtn.onclick = () => {
             const modal = createUpdateForm(book, booksData);
             document.body.appendChild(modal);
         };
 
         // Handle delete button click
-        const deleteBtn = col.querySelector(".delete-btn");
+        const deleteBtn = col.querySelector('.delete-btn');
         deleteBtn.onclick = () => {
             confirmDelete(book, booksData, renderBooks);
         };
@@ -128,27 +128,27 @@ export function renderBooks(books) {
 function createGenreFilter(books) {
 
     // Extract unique genres + add default option
-    const genres = ["All Genres", ...new Set(books.map(b => b.genre).filter(g => g))];
+    const genres = ['All Genres', ...new Set(books.map(b => b.genre).filter(g => g))];
 
-    const filterContainer = document.createElement("div");
-    filterContainer.className = "mb-3";
+    const filterContainer = document.createElement('div');
+    filterContainer.className = 'mb-3';
 
     // Dropdown UI
     filterContainer.innerHTML = `
         <label class="form-label small fw-bold">Filter by Genre:</label>
         <select id="genreSelect" class="form-select">
-            ${genres.map(genre => `<option value="${genre}">${genre}</option>`).join("")}
+            ${genres.map(genre => `<option value="${genre}">${genre}</option>`).join('')}
         </select>
     `;
 
-    const select = filterContainer.querySelector("#genreSelect");
+    const select = filterContainer.querySelector('#genreSelect');
 
     // Handle filter change
     select.onchange = (e) => {
         const selectedGenre = e.target.value;
 
         // Show all books
-        if (selectedGenre === "All Genres") {
+        if (selectedGenre === 'All Genres') {
             renderBooks(books);
         } else {
             // Filter books by selected genre

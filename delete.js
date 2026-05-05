@@ -1,25 +1,25 @@
-import { deleteBookAPI } from "./api.js";
-import { notify } from "./notification.js"; 
+import { deleteBookAPI } from './api.js';
+import { notify } from './notification.js'; 
 
 // Function to show delete confirmation modal
 export function confirmDelete(book, booksData, onSuccess) {
 
     // Create full-screen overlay for modal
-    const modalOverlay = document.createElement("div");
+    const modalOverlay = document.createElement('div');
 
     // Apply overlay styling (dark background + center alignment)
     Object.assign(modalOverlay.style, {
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.6)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: "3000",
-        backdropFilter: "blur(4px)"
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: '3000',
+        backdropFilter: 'blur(4px)'
     });
 
     // Modal HTML structure
@@ -45,17 +45,17 @@ export function confirmDelete(book, booksData, onSuccess) {
     document.body.appendChild(modalOverlay);
 
     // Close modal on cancel
-    modalOverlay.querySelector("#cancelDel").onclick = () => modalOverlay.remove();
+    modalOverlay.querySelector('#cancelDel').onclick = () => modalOverlay.remove();
 
     // Handle delete confirmation
-    modalOverlay.querySelector("#confirmDel").onclick = async () => {
+    modalOverlay.querySelector('#confirmDel').onclick = async () => {
 
-        const confirmBtn = modalOverlay.querySelector("#confirmDel");
-        const spinner = modalOverlay.querySelector("#modalSpinner");
+        const confirmBtn = modalOverlay.querySelector('#confirmDel');
+        const spinner = modalOverlay.querySelector('#modalSpinner');
 
         // Disable button and show loading spinner
         confirmBtn.disabled = true;
-        spinner.classList.remove("d-none");
+        spinner.classList.remove('d-none');
 
         try {
             // Call API to delete book
@@ -63,23 +63,24 @@ export function confirmDelete(book, booksData, onSuccess) {
 
             // Remove book from local array
             const index = booksData.findIndex(b => b.id === book.id);
-            if (index !== -1) booksData.splice(index, 1);
+            if (index !== -1) {booksData.splice(index, 1);}
 
             // Close modal
             modalOverlay.remove();
 
             // Refresh UI
-            if (onSuccess) onSuccess(booksData);
+            if (onSuccess) {onSuccess(booksData);}
 
-            notify("Book deleted successfully!");
+            notify('Book deleted successfully!');
 
-        } catch (err) {
+        } catch (error) {
             // Show error notification
-            notify("Delete failed!");
+            console.log(error);
+            notify('Delete failed!');
 
             // Reset UI state
             confirmBtn.disabled = false;
-            spinner.classList.add("d-none");
+            spinner.classList.add('d-none');
         }
     };
 }

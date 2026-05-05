@@ -1,26 +1,26 @@
-import { renderBooks } from "./app.js";
-import { updateBookAPI } from "./api.js";
-import { notify } from "./notification.js"; 
+import { renderBooks } from './app.js';
+import { updateBookAPI } from './api.js';
+import { notify } from './notification.js'; 
 
 // Function to create update (edit) modal for a book
 export function createUpdateForm(book, booksData) {
 
   // Create modal overlay (background blur layer)
-  const modalOverlay = document.createElement("div");
+  const modalOverlay = document.createElement('div');
 
   // Apply full-screen overlay styling
   Object.assign(modalOverlay.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
-    backdropFilter: "blur(8px)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: "2000"
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backdropFilter: 'blur(8px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '2000'
   });
 
   // Modal UI structure
@@ -44,11 +44,11 @@ export function createUpdateForm(book, booksData) {
         <div class="row">
           <div class="col-6 mb-3">
             <label class="form-label small fw-bold">Genre</label>
-            <input type="text" id="upGenre" class="form-control" value="${book.genre || ""}">
+            <input type="text" id="upGenre" class="form-control" value="${book.genre || ''}">
           </div>
           <div class="col-6 mb-3">
             <label class="form-label small fw-bold">Year</label>
-            <input type="text" id="upYear" class="form-control" value="${book.year || ""}">
+            <input type="text" id="upYear" class="form-control" value="${book.year || ''}">
           </div>
         </div>
 
@@ -64,9 +64,9 @@ export function createUpdateForm(book, booksData) {
   `;
 
   // Get elements from modal
-  const saveBtn = modalOverlay.querySelector("#saveBtn");
-  const cancelBtn = modalOverlay.querySelector("#cancelBtn");
-  const spinner = modalOverlay.querySelector("#upSpinner");
+  const saveBtn = modalOverlay.querySelector('#saveBtn');
+  const cancelBtn = modalOverlay.querySelector('#cancelBtn');
+  const spinner = modalOverlay.querySelector('#upSpinner');
 
   // Function to close modal
   const closeMenu = () => modalOverlay.remove();
@@ -78,14 +78,14 @@ export function createUpdateForm(book, booksData) {
   saveBtn.onclick = async () => {
 
     // Get updated values from inputs
-    const title = modalOverlay.querySelector("#upTitle").value.trim();
-    const author = modalOverlay.querySelector("#upAuthor").value.trim();
-    const genre = modalOverlay.querySelector("#upGenre").value.trim();
-    const year = modalOverlay.querySelector("#upYear").value.trim();
+    const title = modalOverlay.querySelector('#upTitle').value.trim();
+    const author = modalOverlay.querySelector('#upAuthor').value.trim();
+    const genre = modalOverlay.querySelector('#upGenre').value.trim();
+    const year = modalOverlay.querySelector('#upYear').value.trim();
 
     // Validation: required fields
     if (!title || !author) {
-      notify("Title and Author cannot be empty!");
+      notify('Title and Author cannot be empty!');
       return;
     }
 
@@ -93,11 +93,11 @@ export function createUpdateForm(book, booksData) {
     const isIdenticalToSelf =
       title === book.title &&
       author === book.author &&
-      genre === (book.genre || "") &&
-      year === (book.year || "");
+      genre === (book.genre || '') &&
+      year === (book.year || '');
 
     if (isIdenticalToSelf) {
-      notify("No changes detected!");
+      notify('No changes detected!');
       return;
     }
 
@@ -106,17 +106,17 @@ export function createUpdateForm(book, booksData) {
       b.id !== book.id &&
       b.title.toLowerCase() === title.toLowerCase() &&
       b.author.toLowerCase() === author.toLowerCase() &&
-      (b.genre || "").toLowerCase() === genre.toLowerCase() &&
-      (b.year || "").toString() === year.toString()
+      (b.genre || '').toLowerCase() === genre.toLowerCase() &&
+      (b.year || '').toString() === year.toString()
     );
 
     if (isDuplicateOfOther) {
-      notify("Error: This exact book entry already exists in the library!");
+      notify('Error: This exact book entry already exists in the library!');
       return;
     }
 
     // Show loading state
-    spinner.classList.remove("d-none");
+    spinner.classList.remove('d-none');
     saveBtn.disabled = true;
 
     try {
@@ -137,14 +137,14 @@ export function createUpdateForm(book, booksData) {
       // Close modal
       closeMenu();
 
-      notify("Book updated successfully!");
+      notify('Book updated successfully!');
 
     } catch (err) {
       console.error(err);
-      notify("Failed to update database.");
+      notify('Failed to update database.');
     } finally {
       // Reset loading state
-      spinner.classList.add("d-none");
+      spinner.classList.add('d-none');
       saveBtn.disabled = false;
     }
   };

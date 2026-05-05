@@ -1,13 +1,13 @@
-import { renderBooks } from "./app.js";
-import { addBookAPI } from "./api.js";
-import { notify } from "./notification.js"; 
+import { renderBooks } from './app.js';
+import { addBookAPI } from './api.js';
+import { notify } from './notification.js'; 
 
 // Function to create Add Book form UI
 export function createAddBookForm(booksData) {
 
     // Create main form container
-    const formContainer = document.createElement("div");
-    formContainer.className = "card p-4 mb-4 shadow-sm border-primary";
+    const formContainer = document.createElement('div');
+    formContainer.className = 'card p-4 mb-4 shadow-sm border-primary';
 
     // Form structure (inputs + buttons)
     formContainer.innerHTML = `
@@ -24,9 +24,9 @@ export function createAddBookForm(booksData) {
     `;
 
     // Get elements from DOM
-    const addBtn = formContainer.querySelector("#addBtn");
-    const cancelBtn = formContainer.querySelector("#cancelBtn");
-    const spinner = formContainer.querySelector("#spinner");
+    const addBtn = formContainer.querySelector('#addBtn');
+    const cancelBtn = formContainer.querySelector('#cancelBtn');
+    const spinner = formContainer.querySelector('#spinner');
 
     // Remove form when cancel button is clicked
     cancelBtn.onclick = () => formContainer.remove();
@@ -35,14 +35,14 @@ export function createAddBookForm(booksData) {
     addBtn.onclick = async () => {
 
         // Get input values and remove extra spaces
-        const title = formContainer.querySelector("#titleInput").value.trim();
-        const author = formContainer.querySelector("#authorInput").value.trim();
-        const genre = formContainer.querySelector("#genreInput").value.trim();
-        const year = formContainer.querySelector("#yearInput").value.trim();
+        const title = formContainer.querySelector('#titleInput').value.trim();
+        const author = formContainer.querySelector('#authorInput').value.trim();
+        const genre = formContainer.querySelector('#genreInput').value.trim();
+        const year = formContainer.querySelector('#yearInput').value.trim();
 
         // Validation: required fields check
         if (!title || !author) {
-            notify("Fields cannot be empty!");
+            notify('Fields cannot be empty!');
             return;
         }
 
@@ -52,12 +52,12 @@ export function createAddBookForm(booksData) {
         );
 
         if (isDuplicate) {
-            notify("This book already exists in the library!");
+            notify('This book already exists in the library!');
             return;
         }
 
         // Show loading spinner and disable button
-        spinner.classList.remove("d-none");
+        spinner.classList.remove('d-none');
         addBtn.disabled = true;
 
         try {
@@ -73,13 +73,13 @@ export function createAddBookForm(booksData) {
             // Remove form after success
             formContainer.remove();
 
-            notify("Book added successfully!");
+            notify('Book added successfully!');
         } catch (error) {
-            notify("Failed to add book.");
+            notify('Failed to add book.');
             console.error(error);
         } finally {
             // Reset loading state
-            spinner.classList.add("d-none");
+            spinner.classList.add('d-none');
             addBtn.disabled = false;
         }
     };
